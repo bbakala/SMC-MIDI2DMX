@@ -18,6 +18,10 @@
 #include "../Core/MapSelector.h"
 #include "Map_MIDI_DIN_IN.h"
 
+#include "../Core/Config.h"
+#include "../Core/TargetPlatform.h"
+#include "../Core/Debug.h"
+
 // Stavová LED HW varianty. GPIO4: svítí = BLE připojeno, nesvítí = BLE odpojeno.
 #define BLE_STATUS_LED_PIN 4
 
@@ -1524,19 +1528,33 @@ void setup()
 
     delay(300);
 
+    // Status LED
     pinMode(BLE_STATUS_LED_PIN, OUTPUT);
     setStatusLed(false);
 
+    // NVS
     prefs.begin("dmx", false);
 
+    // DMX output
     setupDMX();
+
+    // MIDI DIN input
     setupMidiDinIn();
 
+    // Load persistent configuration
     initGlobal();
 
+    // BLE MIDI client
     setupNimBLE();
 
-    DBG_PRINT(PROJECT_NAME); DBG_PRINT(" ESP32_WROOM "); DBG_PRINT(PROJECT_VERSION); DBG_PRINTLN(" started");
+    // Startup information
+    DBG_PRINT(PROJECT_NAME);
+    DBG_PRINT(" ESP32_WROOM ");
+    DBG_PRINT(PROJECT_VERSION);
+    DBG_PRINT("  ");
+    DBG_PRINT(BUILD_DATE);
+    DBG_PRINT(" ");
+    DBG_PRINTLN(BUILD_TIME);
 }
 
 void loop()

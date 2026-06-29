@@ -22,6 +22,9 @@
 #include "../Core/Map_PFT02.h"
 #include "../Core/Map_BakiPAR.h"
 #include "../Core/MapSelector.h"
+#include "../Core/Config.h"
+#include "../Core/TargetPlatform.h"
+#include "../Core/Debug.h"
 
 #define RGB_PIN 48
 
