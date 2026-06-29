@@ -7,17 +7,28 @@
 // Shared project configuration
 //====================================================
 
+// Fixtures
 constexpr uint8_t FIXTURE_COUNT      = 16;
 constexpr uint8_t FIXTURES_PER_BANK  = 8;
-constexpr uint8_t SCENE_COUNT        = 4;
 
+// Scenes / Maps
+constexpr uint8_t SCENE_COUNT        = 4;
+constexpr uint8_t MAP_COUNT          = 4;
+
+// MIDI
 constexpr uint8_t MIDI_MIN_VALUE     = 0;
 constexpr uint8_t MIDI_MAX_VALUE     = 127;
+constexpr uint8_t MIDI_CC_COUNT      = 128;
 
+// DMX
 constexpr uint8_t DMX_MIN_VALUE      = 0;
 constexpr uint8_t DMX_MAX_VALUE      = 254;
-
-constexpr uint8_t MIDI_CC_COUNT      = 128;
 constexpr uint8_t DMX_LOGICAL_COUNT  = 128;
-
 constexpr uint16_t DMX_FRAME_INTERVAL_MS = 25;
+
+// BLE LED queue
+constexpr uint8_t LED_QUEUE_SIZE     = 32;
+
+// SMC-Mixer physical controls
+constexpr uint8_t SMC_CHANNEL_COUNT  = 8;
+constexpr uint8_t SMC_ENCODER_COUNT  = 8;
