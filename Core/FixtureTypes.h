@@ -2,6 +2,11 @@
 
 #include <Arduino.h>
 #include "Config.h"
+// Compatibility aliases for existing sketch code.
+// New code should prefer constants from Config.h directly.
+inline constexpr uint8_t NUM_STRIPS   = SMC_CHANNEL_COUNT;
+inline constexpr uint8_t NUM_FIXTURES = FIXTURE_COUNT;
+inline constexpr uint8_t NUM_VALUES   = FIXTURE_VALUE_COUNT;
 
 // -----------------------------------------------------------------------------
 // FixtureTypes.h
