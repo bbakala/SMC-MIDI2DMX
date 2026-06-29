@@ -1,13 +1,12 @@
 #pragma once
 
+#include <Arduino.h>
+#include "Config.h"
+
 // -----------------------------------------------------------------------------
 // FixtureTypes.h
-// Společné typy pro obecný DMX/MIDI engine verze _07.
+// Shared fixture types for SMC-MIDI2DMX
 // -----------------------------------------------------------------------------
-
-#define NUM_STRIPS 8
-#define NUM_FIXTURES 16
-#define NUM_VALUES 16
 
 struct Fixture
 {
@@ -16,16 +15,17 @@ struct Fixture
     bool S;
     bool M;
 
-    // Všechny hodnoty jsou MIDI rozsah 0..127.
-    // Význam value[] neurčuje struct, ale MAP tabulka.
-    uint8_t value[NUM_VALUES];
+    // Všechny hodnoty jsou v rozsahu MIDI 0..127.
+    // Význam jednotlivých položek určuje aktivní MAP.
+    uint8_t value[FIXTURE_VALUE_COUNT];
 };
 
 // Každý interní parametr má svůj symbolický název.
-// Poznámka: _07 zatím zachovává kompatibilitu _06a:
-// VAL_CUSTOM a VAL_HORIZONT sdílejí value[8].
-// V další etapě je možné oddělit fyzický encoder -> parametr zařízení úplně samostatně.
-enum ValueIndex
+// Poznámka:
+// VAL_CUSTOM a VAL_HORIZONT zatím sdílejí stejný index.
+// Do budoucna je možné fyzické ovládací prvky zcela oddělit
+// od interních parametrů zařízení.
+enum ValueIndex : uint8_t
 {
     VAL_DIMMER   = 0,
     VAL_RED      = 1,
@@ -37,7 +37,7 @@ enum ValueIndex
     VAL_SPEED    = 7,
     VAL_CUSTOM   = 8,
 
-    // Aliasové názvy pro zařízení, která nejsou RGBW.
+    // Aliasové názvy pro jiná zařízení
     VAL_HORIZONT = 8,
     VAL_VERTIKAL = 9,
     VAL_COLOUR   = 10,
@@ -50,7 +50,7 @@ enum ValueIndex
     VAL_UNUSED   = 255
 };
 
-static const char* valueName[NUM_VALUES] =
+inline constexpr const char* valueName[FIXTURE_VALUE_COUNT] =
 {
     "dimmer",
     "red/horiz/custom",
@@ -72,7 +72,7 @@ static const char* valueName[NUM_VALUES] =
 
 struct DmxMapItem
 {
-    uint8_t cc;          // USB MIDI CC číslo 0..127 a současně DMX logický kanál 0..127
-    uint8_t fixture;     // index fixture 0..15
-    uint8_t valueIndex;  // value[] index 0..15 nebo VAL_UNUSED
+    uint8_t cc;          // MIDI CC 0..127 = logický DMX kanál
+    uint8_t fixture;     // 0..FIXTURE_COUNT-1
+    uint8_t valueIndex;  // ValueIndex nebo VAL_UNUSED
 };
