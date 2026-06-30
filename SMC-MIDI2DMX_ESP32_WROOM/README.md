@@ -17,3 +17,23 @@ Funkce:
 Hlavní sketch:
 
 `SMC-MIDI2DMX_ESP32_WROOM.ino`
+## Debug režim ESP32-WROOM
+
+ESP32-WROOM používá UART0 dvěma různými způsoby.
+
+### Provoz
+
+```cpp
+#define DEBUG_SERIAL 0
+
+UART0 přijímá MIDI DIN IN na 31250 Bd.
+Serial debug konzole je vypnutá.
+
+### Ladění
+...cpp
+#define DEBUG_SERIAL 1
+
+UART0 je Serial konzole na 115200 Bd.
+MIDI DIN IN je vypnutý.
+
+Důvod: UART0 nemůže současně sloužit jako MIDI DIN IN 31250 Bd a Serial konzole 115200 Bd.
