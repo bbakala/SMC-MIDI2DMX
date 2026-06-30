@@ -21,6 +21,7 @@
 #include "../Core/Config.h"
 #include "../Core/TargetPlatform.h"
 #include "../Core/Debug.h"
+#include "../Core/DmxConfig.h"
 
 // Stavová LED HW varianty. GPIO4: svítí = BLE připojeno, nesvítí = BLE odpojeno.
 #define BLE_STATUS_LED_PIN 4
@@ -28,7 +29,6 @@
 // DMX UART. Uprav podle zapojení RS485 převodníku.
 #define DMX_TX_PIN 17
 #define DMX_RX_PIN -1
-#define DMX_BAUD 250000
 #define DMX_FRAME_INTERVAL_MS 25
 
 // MIDI DIN IN přes UART0 podle odladěného starého HW.

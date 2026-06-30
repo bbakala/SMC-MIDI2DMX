@@ -25,13 +25,13 @@
 #include "../Core/Config.h"
 #include "../Core/TargetPlatform.h"
 #include "../Core/Debug.h"
+#include "../Core/DmxConfig.h"
 
 #define RGB_PIN 48
 
 // DMX UART. Uprav podle zapojení RS485 převodníku.
 #define DMX_TX_PIN 17
 #define DMX_RX_PIN -1
-#define DMX_BAUD 250000
 #define DMX_FRAME_INTERVAL_MS 25
 
 // USB MIDI CC OUT z fixture[].
