@@ -1254,7 +1254,7 @@ void refreshDMX()
     memset(dmxBuffer, 0, sizeof(dmxBuffer));
 
     // DMX start code.
-    dmxBuffer[0] = 0x00;
+    dmxBuffer[0] = DMX_START_CODE;
 
     // DMX OUT podle aktivní MAP tabulky.
     for(uint8_t i = 0; i < activeDmxMapCount(global.mapDMX); i++)
