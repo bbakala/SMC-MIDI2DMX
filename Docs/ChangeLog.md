@@ -102,3 +102,5 @@ První oficiální společná verze projektu pod názvem **SMC-MIDI2DMX**.
 - Debug.h stabilizováno.
 - FixtureTypes.h stabilizováno.
 - MAP modul stabilizován.
+
+v04_02 Released

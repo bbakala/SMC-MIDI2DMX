@@ -1,19 +1,14 @@
-# Core 04_01
+# Core
 
-Společné jádro projektu SMC-MIDI2DMX.
+Shared code for all supported hardware platforms.
 
-Obsahuje:
+Contains:
 
-- `FixtureTypes.h`
-- `Version.h`
-- `MapSelector.h`
-- `Map_PFT01.h`
-- `Map_PFT02.h`
-- `Map_BakiPAR.h`
+- Version
+- Config
+- TargetPlatform
+- Debug
+- FixtureTypes
+- Fixture Maps
 
-Pořadí MAP:
-
-- MAP0 = PFT01
-- MAP1 = PFT02
-- MAP2 = BakiPAR
-- MAP3 = PFT01 alias / rezerva
+No hardware specific code is allowed in this directory.

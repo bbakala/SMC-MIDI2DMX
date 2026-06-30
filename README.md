@@ -1,33 +1,42 @@
 # SMC-MIDI2DMX
 
-Jeden skutečný zdrojový strom projektu. Verze je uvedena pouze v `Core/Version.h` a v `Docs/ChangeLog.md`.
+Open-source BLE MIDI → DMX controller based on ESP32.
 
-## Verze
+## Features
 
-`04_01`
+- BLE MIDI Client (M-VAVE SMC-MIXER)
+- MIDI DIN IN (ESP32-WROOM)
+- USB MIDI (ESP32-S3 – work in progress)
+- DMX512 OUT
+- Scene memory
+- Multiple fixture maps
 
-## Struktura
+## Supported hardware
 
-```text
-SMC-MIDI2DMX/
-├── Core/
-├── SMC-MIDI2DMX_ESP32_S3/
-├── SMC-MIDI2DMX_ESP32_WROOM/
-└── Docs/
-```
+| Platform | Status |
+|----------|--------|
+| ESP32-WROOM | Reference platform |
+| ESP32-S3 | Experimental |
 
-## Arduino sketche
+## Repository structure
 
-Otevírej vždy příslušnou složku sketchu:
+Core/
+Shared code.
 
-- `SMC-MIDI2DMX_ESP32_S3/SMC-MIDI2DMX_ESP32_S3.ino`
-- `SMC-MIDI2DMX_ESP32_WROOM/SMC-MIDI2DMX_ESP32_WROOM.ino`
+SMC-MIDI2DMX_ESP32_WROOM/
+Reference hardware.
 
-Obě HW varianty sdílejí stejné `Core/`.
+SMC-MIDI2DMX_ESP32_S3/
+USB capable hardware.
 
-## MAP pořadí
+Docs/
+Project documentation.
 
-- MAP0 = PFT01
-- MAP1 = PFT02
-- MAP2 = BakiPAR
-- MAP3 = PFT01 alias / rezerva
+## Current release
+
+v04_02 (development)
+
+See:
+
+- Docs/ChangeLog.md
+- Docs/Audit_v04_02.md
