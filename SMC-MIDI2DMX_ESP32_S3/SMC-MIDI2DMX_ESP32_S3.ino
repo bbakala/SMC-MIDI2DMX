@@ -26,6 +26,7 @@
 #include "../Core/TargetPlatform.h"
 #include "../Core/Debug.h"
 #include "../Core/DmxConfig.h"
+#include "../Core/DmxEngine.h"
 
 #define RGB_PIN 48
 
@@ -1256,18 +1257,9 @@ void refreshDMX()
     // DMX OUT podle aktivní MAP tabulky.
     for(uint8_t i = 0; i < activeDmxMapCount(global.mapDMX); i++)
     {
-        uint8_t addr = activeDmxMap(global.mapDMX)[i].cc;
-
-        if(!isValidDmxLogicalChannel(addr))
-            continue;
-
-        uint8_t value = getMapValue(activeDmxMap(global.mapDMX)[i].fixture, activeDmxMap(global.mapDMX)[i].valueIndex);
-
-        // DMX hodnota je pouze 2 * MIDI hodnota, tedy 0..254.
-        if(addr == 0)
-            continue;
-
-        dmxBuffer[addr] = midiValueToDmx(value);
+        const DmxMapItem& item = activeDmxMap(global.mapDMX)[i];
+        uint8_t value = getMapValue(item.fixture, item.valueIndex);
+        applyMapItemToDmxBuffer(dmxBuffer, item, value);
     }
 
 #if USB_MIDI_RAW_TO_DMX
