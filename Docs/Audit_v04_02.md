@@ -62,41 +62,137 @@ Poznámky:
 
 ## BLE
 
-Stav: 🟡
+Stav: 🟢
 
-Čeká na ověření.
+Ověřeno.
+
+Výsledky:
+
+- ✅ Automatické připojení k SMC-MIXER.
+- ✅ BLE LED signalizace.
+- ✅ Přenos MIDI přes BLE.
+- ✅ LED feedback do SMC-MIXER.
+- ✅ Automatický reconnect.
+- ✅ Dlouhodobý provoz stabilní.
+
+Poznámka:
+
+BLE vrstva je pro referenční platformu ESP32-WROOM považována za stabilní pro vydání v04_02.
 
 ---
 
 ## MIDI DIN
 
-Stav: 🟡
+Stav: 🟢
 
-Čeká na ověření.
+Ověřeno.
+
+Výsledky:
+
+- ✅ Příjem MIDI DIN přes UART0 (31250 Bd).
+- ✅ MIDI RAW parser.
+- ✅ Control Change.
+- ✅ Note On / Note Off.
+- ✅ Pitch Bend.
+- ✅ Integrace s BLE řízením.
+- ✅ Integrace s DMX mapováním.
+
+Poznámky:
+
+- DEBUG_SERIAL = 0:
+  - UART0 slouží jako MIDI DIN IN.
+- DEBUG_SERIAL = 1:
+  - UART0 slouží jako Serial konzole.
+  - MIDI DIN IN je vypnutý.
+
+MIDI DIN vrstva je pro referenční platformu ESP32-WROOM považována za stabilní pro vydání v04_02.
 
 ---
 
 ## Scene
 
-Stav: 🟡
+Stav: 🟢
 
-Čeká na ověření.
+Ověřeno.
+
+Výsledky:
+
+- ✅ SAVE scény ukládá aktuální stav `fixture[]`.
+- ✅ LOAD scény obnoví uložený stav `fixture[]`.
+- ✅ CLEAR vynuluje aktuální stav `fixture[]`.
+- ✅ Po LOAD / CLEAR zůstává chování MIDI RAW vrstvy podle pravidel v04_02.
+- ✅ Aktivní scéna je ukládána v Preferences.
+- ✅ Po restartu se obnoví poslední aktivní scéna.
+- ✅ BLE LED feedback po SAVE / LOAD / CLEAR odpovídá stavu programu.
+
+Poznámka:
+
+Scene logika je pro referenční platformu ESP32-WROOM považována za stabilní pro vydání v04_02.
 
 ---
 
 ## MAP
 
-Stav: 🟡
+Stav: 🟢
 
-Čeká na ověření.
+Ověřeno.
 
+Výsledky:
+
+- ✅ MAP0 = PFT01.
+- ✅ MAP1 = PFT02.
+- ✅ MAP2 = BakiPAR.
+- ✅ MAP3 = PFT01 alias / rezerva.
+- ✅ Přepínání MAP0..3 funguje.
+- ✅ Aktivní MAP je ukládána v Preferences.
+- ✅ Po restartu se obnoví poslední aktivní MAP.
+- ✅ MAP používá společné tabulky v Core.
+- ✅ DMX i MIDI RAW pracují se stejným logickým kanálem 0..127.
+
+Poznámka:
+
+MAP modul je pro referenční platformu ESP32-WROOM považován za stabilní pro vydání v04_02.
 ---
 
 ## DMX
 
-Stav: 🟡
+Stav: 🟢
 
-Čeká na ověření.
+Ověřeno.
+
+### DMX Engine
+
+- ✅ Obnovovací perioda 25 ms.
+- ✅ Výstup 0..254.
+- ✅ Break + Mark After Break generovány správně.
+- ✅ Odesílá se kompletní DMX rámec.
+
+### Mapování
+
+- ✅ DMX kanál = logický kanál MAP tabulky.
+- ✅ DMX hodnota = 2 × MIDI hodnota (0..127 → 0..254).
+- ✅ Všechny výpočty vycházejí z `fixture[]`.
+
+### Dirty update
+
+- ✅ Změna hodnoty označí příslušný logický kanál jako změněný.
+- ✅ USB MIDI CC OUT odesílá pouze změněné hodnoty.
+- ✅ DMX rámec vždy obsahuje kompletní aktuální stav.
+
+### Priorita zdrojů
+
+- ✅ BLE SMC-Mixer mění `fixture[]`.
+- ✅ MIDI DIN RAW může přepsat hodnoty podle MAP.
+- ✅ DMX vždy vychází z aktuálního logického stavu.
+
+### Stabilita
+
+- ✅ Nevznikají nekonzistentní hodnoty.
+- ✅ DMX výstup odpovídá aktivní MAP.
+
+Poznámka:
+
+DMX Engine je pro referenční platformu ESP32-WROOM považován za stabilní pro vydání v04_02.
 
 ---
 
@@ -113,13 +209,13 @@ Požadavky:
 
 # Release checklist
 
-- [ ] Core stabilní
-- [ ] DEBUG_SERIAL ověřen
-- [ ] BLE ověřeno
-- [ ] MIDI DIN ověřeno
-- [ ] Scene ověřeny
-- [ ] MAP ověřeny
-- [ ] DMX ověřeno
+- [x] Core stabilní
+- [x] DEBUG_SERIAL ověřen
+- [x] BLE ověřeno
+- [x] MIDI DIN ověřeno
+- [x] Scene ověřeny
+- [x] MAP ověřeny
+- [x] DMX ověřeno
 - [ ] Dokumentace aktualizována
 - [ ] CHANGELOG aktualizován
 - [ ] Tag v04_02 vytvořen
