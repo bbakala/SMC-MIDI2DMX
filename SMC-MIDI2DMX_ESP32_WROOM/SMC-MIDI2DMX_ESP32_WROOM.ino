@@ -83,7 +83,7 @@ HardwareSerial dmxSerial(1);
 // DMX slot na vodiči odpovídá číslu CC z tabulky MAP:
 // CC 1 -> DMX kanál 1. dmxBuffer[0] je DMX start code.
 #define DMX_LOGICAL_CHANNELS 128
-uint8_t dmxBuffer[DMX_LOGICAL_CHANNELS + 1];
+uint8_t dmxBuffer[DMX_BUFFER_SIZE];
 uint32_t lastDMXFrame = 0;
 
 #if MIDI_DIN_RAW_TO_DMX
