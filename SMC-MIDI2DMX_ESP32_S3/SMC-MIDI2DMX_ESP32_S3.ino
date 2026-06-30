@@ -1270,7 +1270,7 @@ void refreshDMX()
         if(addr == 0)
             continue;
 
-        dmxBuffer[addr] = value * 2;
+        dmxBuffer[addr] = midiValueToDmx(value);
     }
 
 #if USB_MIDI_RAW_TO_DMX

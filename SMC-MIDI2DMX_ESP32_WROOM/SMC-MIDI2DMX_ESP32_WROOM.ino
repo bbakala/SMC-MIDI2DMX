@@ -1228,7 +1228,7 @@ void refreshDMX()
         if(addr == 0)
             continue;
 
-        dmxBuffer[addr] = value * 2;
+        dmxBuffer[addr] = midiValueToDmx(value);
     }
 
 #if MIDI_DIN_RAW_TO_DMX
