@@ -82,13 +82,13 @@ HardwareSerial dmxSerial(1);
 
 // DMX slot na vodiči odpovídá číslu CC z tabulky MAP:
 // CC 1 -> DMX kanál 1. dmxBuffer[0] je DMX start code.
-#define DMX_LOGICAL_CHANNELS 128
+#define DMX_LOGICAL_COUNT 128
 uint8_t dmxBuffer[DMX_BUFFER_SIZE];
 uint32_t lastDMXFrame = 0;
 
 #if MIDI_DIN_RAW_TO_DMX
-bool midiRawValid[DMX_LOGICAL_CHANNELS];
-uint8_t midiRawDmxValue[DMX_LOGICAL_CHANNELS];
+bool midiRawValid[DMX_LOGICAL_COUNT];
+uint8_t midiRawDmxValue[DMX_LOGICAL_COUNT];
 #endif
 
 enum WorkMode
@@ -791,7 +791,7 @@ void clearMidiRawAll()
 void clearMidiRawForCC(uint8_t cc)
 {
 #if MIDI_DIN_RAW_TO_DMX
-    if(cc < DMX_LOGICAL_CHANNELS)
+    if(cc < DMX_LOGICAL_COUNT)
     {
         midiRawValid[cc] = false;
         midiRawDmxValue[cc] = 0;
@@ -1216,8 +1216,8 @@ void refreshDMX()
     {
         uint8_t addr = activeDmxMap(global.mapDMX)[i].cc;
 
-        if(addr >= DMX_LOGICAL_CHANNELS)
-            continue;
+        if(!isValidDmxLogicalChannel(addr))
+        continue;
 
         uint8_t value = getMapValue(activeDmxMap(global.mapDMX)[i].fixture, activeDmxMap(global.mapDMX)[i].valueIndex);
 
@@ -1231,7 +1231,7 @@ void refreshDMX()
 #if MIDI_DIN_RAW_TO_DMX
     // MIDI RAW vrstva: poslední hodnota ze sequenceru má prioritu jen na kanálech,
     // kde je midiRawValid[addr] == true.
-    for(uint8_t addr = 1; addr < DMX_LOGICAL_CHANNELS; addr++)
+    for(uint8_t addr = 1; addr < DMX_LOGICAL_COUNT; addr++)
     {
         if(midiRawValid[addr])
             dmxBuffer[addr] = midiRawDmxValue[addr];
@@ -1395,7 +1395,7 @@ void handleMidiDinRaw(uint8_t status, uint8_t data1, uint8_t data2)
 
     // DMX kanál 0 v praxi nepoužíváme, protože dmxBuffer[0] je start code.
     // Kanály 1..127 jsou přímý DMX/CC prostor.
-    if(dmxChannel > 0 && dmxChannel < DMX_LOGICAL_CHANNELS)
+    if(dmxChannel > 0 && dmxChannel < DMX_LOGICAL_COUNT)
     {
         midiRawValid[dmxChannel] = true;
         midiRawDmxValue[dmxChannel] = midiValue * 2;
