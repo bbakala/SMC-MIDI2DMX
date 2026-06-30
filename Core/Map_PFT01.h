@@ -81,6 +81,19 @@ const DmxMapItem dmxMapPFT01[] =
     {  82,  7, VAL_SELFWALK },   // Spot02 SelfWalk
     {  83,  7, VAL_UNUSED   },   // Spot02 Reset
     {  84,  7, VAL_EXTRA    },   // Spot02 Strip
+	{  91,  8, VAL_CUSTOM },     // lista01 Yosa
+    {  92,  8, VAL_SPEED },      // lista01 Speed
+    {  93,  8, VAL_DIMMER },     // lista01 Dimmer
+    {  94,  8, VAL_STROBE },     // lista01 Strobe
+    {  95,  8, VAL_RED },        // lista01 Red
+    {  96,  8, VAL_GREEN },      // lista01 Green
+    {  97,  8, VAL_BLUE },       // lista01 Blue
+    {  98,  8, VAL_WHITE },      // lista01 White
+    {  99,  8, VAL_EFFECT },     // lista01 Mode
+    { 100,  8, VAL_EXTRA },      // lista01 Speed 2 / doplňkový parametr
+    { 101,  8, VAL_COLOUR },     // lista01 BackColor
+    { 102,  8, VAL_PATTERN },    // lista01 BackTone
+    { 103,  8, VAL_SELFWALK }    // lista01 Reset
 };
 
 const uint8_t dmxMapPFT01Count = sizeof(dmxMapPFT01) / sizeof(dmxMapPFT01[0]);
