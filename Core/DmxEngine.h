@@ -20,3 +20,17 @@ inline void applyMapItemToDmxBuffer(
 
     dmxBuffer[addr] = midiValueToDmx(value);
 }
+
+inline void applyMidiRawToDmxBuffer(
+    uint8_t* dmxBuffer,
+    const bool* midiRawValid,
+    const uint8_t* midiRawDmxValue
+)
+{
+    for(uint8_t addr = 1; addr < DMX_LOGICAL_COUNT; addr++)
+    {
+        if(midiRawValid[addr])
+            dmxBuffer[addr] = midiRawDmxValue[addr];
+    }
+}
+

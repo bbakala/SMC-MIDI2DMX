@@ -1223,11 +1223,7 @@ void refreshDMX()
 #if MIDI_DIN_RAW_TO_DMX
     // MIDI RAW vrstva: poslední hodnota ze sequenceru má prioritu jen na kanálech,
     // kde je midiRawValid[addr] == true.
-    for(uint8_t addr = 1; addr < DMX_LOGICAL_COUNT; addr++)
-    {
-        if(midiRawValid[addr])
-            dmxBuffer[addr] = midiRawDmxValue[addr];
-    }
+    applyMidiRawToDmxBuffer(dmxBuffer, midiRawValid, midiRawDmxValue);
 #endif
 }
 

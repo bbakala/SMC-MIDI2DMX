@@ -1263,11 +1263,7 @@ void refreshDMX()
     }
 
 #if USB_MIDI_RAW_TO_DMX
-    for(uint8_t addr = 1; addr < DMX_LOGICAL_COUNT; addr++)
-    {
-        if(midiRawValid[addr])
-            dmxBuffer[addr] = midiRawDmxValue[addr];
-    }
+    applyMidiRawToDmxBuffer(dmxBuffer, midiRawValid, midiRawDmxValue);
 #endif
 }
 
