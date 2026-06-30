@@ -16,3 +16,9 @@ inline uint8_t midiValueToDmx(uint8_t value)
 {
     return value * 2;
 }
+
+inline void clearDmxBuffer(uint8_t* buffer, size_t size)
+{
+    memset(buffer, 0, size);
+    buffer[0] = DMX_START_CODE;
+}

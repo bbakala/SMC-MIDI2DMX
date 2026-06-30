@@ -1251,10 +1251,7 @@ void sendDirtyFixtureUsbMidiCC()
 
 void refreshDMX()
 {
-    memset(dmxBuffer, 0, sizeof(dmxBuffer));
-
-    // DMX start code.
-    dmxBuffer[0] = DMX_START_CODE;
+    clearDmxBuffer(dmxBuffer, sizeof(dmxBuffer));
 
     // DMX OUT podle aktivní MAP tabulky.
     for(uint8_t i = 0; i < activeDmxMapCount(global.mapDMX); i++)
@@ -1292,7 +1289,7 @@ void refreshOutputs()
 
 void setupDMX()
 {
-    memset(dmxBuffer, 0, sizeof(dmxBuffer));
+    clearDmxBuffer(dmxBuffer, sizeof(dmxBuffer));
 #if USB_MIDI_RAW_TO_DMX
     clearMidiRawAll();
 #endif
