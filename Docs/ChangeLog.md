@@ -86,3 +86,19 @@ První oficiální společná verze projektu pod názvem **SMC-MIDI2DMX**.
 - odstraněny mezisložky `HW_ESP32_*/SMC-MIDI2DMX_*_04_01/`,
 - Arduino sketche jsou přímo ve složkách `SMC-MIDI2DMX_ESP32_S3/` a `SMC-MIDI2DMX_ESP32_WROOM/`,
 - relativní cesty `#include` změněny na `../Core/...`.
+
+## v04_02 – develop
+
+### Scope
+- Stabilizace společného Core.
+- Stabilizace ESP32-WROOM jako referenční platformy.
+- ESP32-S3 ponechána kompilovatelná, platform-specific testy odloženy.
+
+### Core
+
+- Version.h stabilizováno.
+- Config.h stabilizováno.
+- TargetPlatform.h stabilizováno.
+- Debug.h stabilizováno.
+- FixtureTypes.h stabilizováno.
+- MAP modul stabilizován.
