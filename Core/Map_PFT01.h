@@ -97,4 +97,3 @@ const DmxMapItem dmxMapPFT01[] =
 };
 
 const uint8_t dmxMapPFT01Count = sizeof(dmxMapPFT01) / sizeof(dmxMapPFT01[0]);
-const uint8_t dmxMapPFT01MaxCc = 103;

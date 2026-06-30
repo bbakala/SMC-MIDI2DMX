@@ -40,4 +40,3 @@ const DmxMapItem dmxMapBakiPAR[] =
 };
 
 const uint8_t dmxMapBakiPARCount = sizeof(dmxMapBakiPAR) / sizeof(dmxMapBakiPAR[0]);
-const uint8_t dmxMapBakiPARMaxCc = 37;
