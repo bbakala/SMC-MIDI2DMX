@@ -34,3 +34,32 @@ inline void applyMidiRawToDmxBuffer(
     }
 }
 
+using DmxValueResolver = uint8_t (*)(uint8_t fixtureIdx, uint8_t valueIndex);
+
+inline void refreshDmxBuffer(
+    uint8_t* dmxBuffer,
+    size_t dmxBufferSize,
+    const DmxMapItem* map,
+    uint8_t mapCount,
+    DmxValueResolver resolveValue,
+    const bool* midiRawValid,
+    const uint8_t* midiRawDmxValue,
+    bool midiRawEnabled
+)
+{
+    clearDmxBuffer(dmxBuffer, dmxBufferSize);
+
+    for(uint8_t i = 0; i < mapCount; i++)
+    {
+        const DmxMapItem& item = map[i];
+        uint8_t value = resolveValue(item.fixture, item.valueIndex);
+
+        applyMapItemToDmxBuffer(dmxBuffer, item, value);
+    }
+
+    if(midiRawEnabled && midiRawValid != nullptr && midiRawDmxValue != nullptr)
+    {
+        applyMidiRawToDmxBuffer(dmxBuffer, midiRawValid, midiRawDmxValue);
+    }
+}
+

@@ -1210,20 +1210,28 @@ void sendDirtyFixtureUsbMidiCC()
 
 void refreshDMX()
 {
-    clearDmxBuffer(dmxBuffer, sizeof(dmxBuffer));
-
-    // DMX OUT podle aktivní MAP tabulky.
-    for(uint8_t i = 0; i < activeDmxMapCount(global.mapDMX); i++)
-    {
-        const DmxMapItem& item = activeDmxMap(global.mapDMX)[i];
-        uint8_t value = getMapValue(item.fixture, item.valueIndex);
-        applyMapItemToDmxBuffer(dmxBuffer, item, value);
-    }
-
 #if MIDI_DIN_RAW_TO_DMX
-    // MIDI RAW vrstva: poslední hodnota ze sequenceru má prioritu jen na kanálech,
-    // kde je midiRawValid[addr] == true.
-    applyMidiRawToDmxBuffer(dmxBuffer, midiRawValid, midiRawDmxValue);
+    refreshDmxBuffer(
+        dmxBuffer,
+        sizeof(dmxBuffer),
+        activeDmxMap(global.mapDMX),
+        activeDmxMapCount(global.mapDMX),
+        getMapValue,
+        midiRawValid,
+        midiRawDmxValue,
+        true
+    );
+#else
+    refreshDmxBuffer(
+        dmxBuffer,
+        sizeof(dmxBuffer),
+        activeDmxMap(global.mapDMX),
+        activeDmxMapCount(global.mapDMX),
+        getMapValue,
+        nullptr,
+        nullptr,
+        false
+    );
 #endif
 }
 
