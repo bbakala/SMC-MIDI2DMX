@@ -530,7 +530,7 @@ void parseGlobal(uint8_t status, uint8_t cc, uint8_t value)
         uint8_t scene = cc - 0x60;
 
         global.activeScene = scene;
-        prefs.putUChar("activeScene", scene);
+        saveActiveScene(prefs, scene);
 
         if(global.mode == MODE_LOAD)
         {
@@ -868,7 +868,7 @@ void loadScene(uint8_t scene)
     }
 
     global.activeScene = scene;
-    prefs.putUChar("activeScene", scene);
+    saveActiveScene(prefs, scene);
 
     clearSelected();
 }
@@ -1486,10 +1486,7 @@ void initGlobal()
     if(global.mapDMX > 3)
         global.mapDMX = 0;
 
-    global.activeScene = prefs.getUChar("activeScene", 0);
-
-    if(global.activeScene > 3)
-        global.activeScene = 0;
+    global.activeScene = loadActiveScene(prefs);
 
     // Po resetu ESP zobrazíme poslední mapu a poslední scénu.
     // CLEAR tyto příznaky zhasne pouze v RAM.
