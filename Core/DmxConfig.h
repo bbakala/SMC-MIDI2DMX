@@ -22,3 +22,9 @@ inline void clearDmxBuffer(uint8_t* buffer, size_t size)
     memset(buffer, 0, size);
     buffer[0] = DMX_START_CODE;
 }
+
+inline bool isValidDmxLogicalChannel(uint8_t channel)
+{
+    return channel < DMX_LOGICAL_COUNT;
+}
+
