@@ -27,6 +27,7 @@
 #include "../Core/Debug.h"
 #include "../Core/DmxConfig.h"
 #include "../Core/DmxEngine.h"
+#include "../Core/SceneManager.h"
 
 #define RGB_PIN 48
 
@@ -746,30 +747,27 @@ void copyOldFixtureToNew(uint8_t idx, const void* oldFxPtr)
 
 void saveScene(uint8_t scene)
 {
-    if(scene > 3)
+    if(!isValidScene(scene))
         return;
 
     char key[10];
-    sprintf(key, "scene%d", scene);
+    makeSceneKey(scene, key, sizeof(key));
 
     prefs.putBytes(key, fixture, sizeof(fixture));
 }
 
 void loadScene(uint8_t scene)
 {
-    if(scene > 3)
+    if(!isValidScene(scene))
         return;
 
     char key[10];
-    sprintf(key, "scene%d", scene);
+    makeSceneKey(scene, key, sizeof(key));
 
     memset(fixture, 0, sizeof(fixture));
 
     size_t len = prefs.getBytesLength(key);
 
-    // Kompatibilita:
-    // - _06a ukládá Fixture[16] s value[16].
-    // - _05d/_06 ukládaly starou strukturu Fixture05dCompat pro 8 nebo 16 fixture.
     if(len == sizeof(fixture))
     {
         prefs.getBytes(key, fixture, sizeof(fixture));
