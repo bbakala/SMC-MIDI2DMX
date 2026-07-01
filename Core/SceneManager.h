@@ -29,3 +29,46 @@ inline uint8_t loadActiveScene(Preferences& prefs)
     return scene;
 }
 
+inline void saveSceneData(
+    Preferences& prefs,
+    uint8_t scene,
+    const Fixture* fixture,
+    size_t fixtureSize
+)
+{
+    if(!isValidScene(scene))
+        return;
+
+    char key[16];
+    makeSceneKey(scene, key, sizeof(key));
+
+    prefs.putBytes(key, fixture, fixtureSize);
+}
+
+inline size_t getSceneDataLength(Preferences& prefs, uint8_t scene)
+{
+    if(!isValidScene(scene))
+        return 0;
+
+    char key[16];
+    makeSceneKey(scene, key, sizeof(key));
+
+    return prefs.getBytesLength(key);
+}
+
+inline void loadSceneData(
+    Preferences& prefs,
+    uint8_t scene,
+    void* buffer,
+    size_t bufferSize
+)
+{
+    if(!isValidScene(scene))
+        return;
+
+    char key[16];
+    makeSceneKey(scene, key, sizeof(key));
+
+    prefs.getBytes(key, buffer, bufferSize);
+}
+

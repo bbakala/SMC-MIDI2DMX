@@ -824,11 +824,7 @@ void clearMidiRawForFixtureValue(uint8_t fixtureIdx, uint8_t valueIndex)
 
 void saveScene(uint8_t scene)
 {
-    if(!isValidScene(scene))
-        return;
-    char key[10];
-    makeSceneKey(scene, key, sizeof(key));
-    prefs.putBytes(key, fixture, sizeof(fixture));
+    saveSceneData(prefs, scene, fixture, sizeof(fixture));
 }
 
 void loadScene(uint8_t scene)
