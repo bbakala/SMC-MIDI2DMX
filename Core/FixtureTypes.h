@@ -24,6 +24,24 @@ struct Fixture
     // Význam jednotlivých položek určuje aktivní MAP.
     uint8_t value[FIXTURE_VALUE_COUNT];
 };
+// Legacy scene format used by 05d versions.
+// Required only for loading old scenes from NVS.
+struct Fixture05dCompat
+{
+    bool selected;
+    uint8_t dimmer;
+    uint8_t red;
+    uint8_t green;
+    uint8_t blue;
+    uint8_t white;
+    uint8_t strobe;
+    uint8_t effect;
+    uint8_t speed;
+    uint8_t custom;
+    bool R;
+    bool S;
+    bool M;
+};
 
 // Každý interní parametr má svůj symbolický název.
 // Poznámka:

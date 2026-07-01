@@ -739,23 +739,6 @@ void clearSelected()
     }
 }
 
-struct Fixture05dCompat
-{
-    bool selected;
-    uint8_t dimmer;
-    uint8_t red;
-    uint8_t green;
-    uint8_t blue;
-    uint8_t white;
-    uint8_t strobe;
-    uint8_t effect;
-    uint8_t speed;
-    uint8_t custom;
-    bool R;
-    bool S;
-    bool M;
-};
-
 void copyOldFixtureToNew(uint8_t idx, const void* oldFxPtr)
 {
     if(idx >= NUM_FIXTURES || oldFxPtr == nullptr)
@@ -829,44 +812,15 @@ void saveScene(uint8_t scene)
 
 void loadScene(uint8_t scene)
 {
-    if(!isValidScene(scene))
-        return;
-    // LOAD mění pouze fixture[] vrstvu.
-    // MIDI RAW vrstva zůstává zachovaná: sequencer kanály běží dál.
-    char key[10];
-    makeSceneKey(scene, key, sizeof(key));
-    memset(fixture, 0, sizeof(fixture));
-    size_t len = prefs.getBytesLength(key);
-
-    if(len == sizeof(fixture))
-    {
-        prefs.getBytes(key, fixture, sizeof(fixture));
-    }
-    else if(len == sizeof(Fixture05dCompat) * 16)
-    {
-        Fixture05dCompat oldFx[16];
-        prefs.getBytes(key, oldFx, sizeof(oldFx));
-
-        for(uint8_t i = 0; i < 16; i++)
-            copyOldFixtureToNew(i, &oldFx[i]);
-    }
-    else if(len == sizeof(Fixture05dCompat) * 8)
-    {
-        Fixture05dCompat oldFx[8];
-        prefs.getBytes(key, oldFx, sizeof(oldFx));
-
-        for(uint8_t i = 0; i < 8; i++)
-            copyOldFixtureToNew(i, &oldFx[i]);
-    }
-    else
-    {
-        memset(fixture, 0, sizeof(fixture));
-    }
-
-    global.activeScene = scene;
-    saveActiveScene(prefs, scene);
-
-    clearSelected();
+    loadSceneCommon(
+        prefs,
+        scene,
+        fixture,
+        sizeof(fixture),
+        global.activeScene,
+        copyOldFixtureToNew,
+        clearSelected
+    );
 }
 
 void clearCurrent()
