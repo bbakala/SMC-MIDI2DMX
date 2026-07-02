@@ -63,8 +63,7 @@ uint8_t dmxBuffer[DMX_BUFFER_SIZE];
 uint32_t lastDMXFrame = 0;
 
 #if USB_MIDI_RAW_TO_DMX
-bool midiRawValid[DMX_LOGICAL_COUNT];
-uint8_t midiRawDmxValue[DMX_LOGICAL_COUNT];
+MidiRawState midiRaw;
 #endif
 
 enum WorkMode
@@ -984,23 +983,15 @@ uint8_t getMapValue(uint8_t fixtureIdx, uint8_t valueIndex)
 
 void clearMidiRawAll()
 {
-#if USB_MIDI_RAW_TO_DMX
-    clearMidiRawAllCommon(
-        midiRawValid,
-        midiRawDmxValue,
-        DMX_LOGICAL_COUNT
-    );
+#if MIDI_DIN_RAW_TO_DMX
+    clearMidiRawAllCommon(midiRaw);
 #endif
 }
 
 void clearMidiRawForCC(uint8_t cc)
 {
-#if USB_MIDI_RAW_TO_DMX
-    clearMidiRawForCCCommon(
-        midiRawValid,
-        midiRawDmxValue,
-        cc
-    );
+#if MIDI_DIN_RAW_TO_DMX
+    clearMidiRawForCCCommon(midiRaw, cc);
 #endif
 }
 
@@ -1075,8 +1066,8 @@ void handleUsbMidiRaw(uint8_t status, uint8_t data1, uint8_t data2)
 
     if(dmxChannel > 0 && dmxChannel < DMX_LOGICAL_COUNT)
     {
-        midiRawValid[dmxChannel] = true;
-        midiRawDmxValue[dmxChannel] = midiValue * 2;
+        midiRaw.valid[dmxChannel] = true;
+        midiRaw.dmxValue[dmxChannel] = midiValueToDmx(midiValue);
         requestDMX = true;
     }
 }
@@ -1208,8 +1199,8 @@ void refreshDMX()
         activeDmxMap(global.mapDMX),
         activeDmxMapCount(global.mapDMX),
         getMapValue,
-        midiRawValid,
-        midiRawDmxValue,
+        midiRaw.valid,
+        midiRaw.dmxValue,
         true
     );
 #else

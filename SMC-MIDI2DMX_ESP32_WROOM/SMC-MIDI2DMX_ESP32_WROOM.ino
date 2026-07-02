@@ -90,8 +90,7 @@ uint8_t dmxBuffer[DMX_BUFFER_SIZE];
 uint32_t lastDMXFrame = 0;
 
 #if MIDI_DIN_RAW_TO_DMX
-bool midiRawValid[DMX_LOGICAL_COUNT];
-uint8_t midiRawDmxValue[DMX_LOGICAL_COUNT];
+MidiRawState midiRaw;
 #endif
 
 enum WorkMode
@@ -767,22 +766,14 @@ void copyOldFixtureToNew(uint8_t idx, const void* oldFxPtr)
 void clearMidiRawAll()
 {
 #if MIDI_DIN_RAW_TO_DMX
-    clearMidiRawAllCommon(
-        midiRawValid,
-        midiRawDmxValue,
-        DMX_LOGICAL_COUNT
-    );
+    clearMidiRawAllCommon(midiRaw);
 #endif
 }
 
 void clearMidiRawForCC(uint8_t cc)
 {
 #if MIDI_DIN_RAW_TO_DMX
-    clearMidiRawForCCCommon(
-        midiRawValid,
-        midiRawDmxValue,
-        cc
-    );
+    clearMidiRawForCCCommon(midiRaw, cc);
 #endif
 }
 
@@ -1153,8 +1144,8 @@ void refreshDMX()
         activeDmxMap(global.mapDMX),
         activeDmxMapCount(global.mapDMX),
         getMapValue,
-        midiRawValid,
-        midiRawDmxValue,
+        midiRaw.valid,
+        midiRaw.dmxValue,
         true
     );
 #else
@@ -1183,8 +1174,7 @@ void setupDMX()
 {
     clearDmxBuffer(dmxBuffer, sizeof(dmxBuffer));
 #if MIDI_DIN_RAW_TO_DMX
-    memset(midiRawValid, 0, sizeof(midiRawValid));
-    memset(midiRawDmxValue, 0, sizeof(midiRawDmxValue));
+    clearMidiRawAllCommon(midiRaw);
 #endif
     dmxSerial.begin(DMX_BAUD, SERIAL_8N2, DMX_RX_PIN, DMX_TX_PIN);
 }
@@ -1329,8 +1319,8 @@ void handleMidiDinRaw(uint8_t status, uint8_t data1, uint8_t data2)
     // Kanály 1..127 jsou přímý DMX/CC prostor.
     if(dmxChannel > 0 && dmxChannel < DMX_LOGICAL_COUNT)
     {
-        midiRawValid[dmxChannel] = true;
-        midiRawDmxValue[dmxChannel] = midiValue * 2;
+        midiRaw.valid[dmxChannel] = true;
+        midiRaw.dmxValue[dmxChannel] = midiValueToDmx(midiValue);
         requestDMX = true;
     }
 }

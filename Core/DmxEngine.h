@@ -23,14 +23,14 @@ inline void applyMapItemToDmxBuffer(
 
 inline void applyMidiRawToDmxBuffer(
     uint8_t* dmxBuffer,
-    const bool* midiRawValid,
-    const uint8_t* midiRawDmxValue
+	const bool* rawValid,
+	const uint8_t* rawDmxValue
 )
 {
     for(uint8_t addr = 1; addr < DMX_LOGICAL_COUNT; addr++)
     {
-        if(midiRawValid[addr])
-            dmxBuffer[addr] = midiRawDmxValue[addr];
+        if(rawValid[addr])
+            dmxBuffer[addr] = rawDmxValue[addr];
     }
 }
 
@@ -42,8 +42,8 @@ inline void refreshDmxBuffer(
     const DmxMapItem* map,
     uint8_t mapCount,
     DmxValueResolver resolveValue,
-    const bool* midiRawValid,
-    const uint8_t* midiRawDmxValue,
+    const bool* rawValid,
+    const uint8_t* rawDmxValue,
     bool midiRawEnabled
 )
 {
@@ -57,9 +57,9 @@ inline void refreshDmxBuffer(
         applyMapItemToDmxBuffer(dmxBuffer, item, value);
     }
 
-    if(midiRawEnabled && midiRawValid != nullptr && midiRawDmxValue != nullptr)
+    if(midiRawEnabled && rawValid != nullptr && rawDmxValue != nullptr)
     {
-        applyMidiRawToDmxBuffer(dmxBuffer, midiRawValid, midiRawDmxValue);
+        applyMidiRawToDmxBuffer(dmxBuffer, rawValid, rawDmxValue);
     }
 }
 

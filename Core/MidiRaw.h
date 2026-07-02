@@ -6,26 +6,24 @@
 #include "FixtureTypes.h"
 #include "MapSelector.h"
 
-inline void clearMidiRawAllCommon(
-    bool* midiRawValid,
-    uint8_t* midiRawDmxValue,
-    size_t count
-)
+struct MidiRawState
 {
-    memset(midiRawValid, 0, count * sizeof(bool));
-    memset(midiRawDmxValue, 0, count * sizeof(uint8_t));
+    bool valid[DMX_LOGICAL_COUNT];
+    uint8_t dmxValue[DMX_LOGICAL_COUNT];
+};
+
+inline void clearMidiRawAllCommon(MidiRawState& raw)
+{
+    memset(raw.valid, 0, sizeof(raw.valid));
+    memset(raw.dmxValue, 0, sizeof(raw.dmxValue));
 }
 
-inline void clearMidiRawForCCCommon(
-    bool* midiRawValid,
-    uint8_t* midiRawDmxValue,
-    uint8_t cc
-)
+inline void clearMidiRawForCCCommon(MidiRawState& raw, uint8_t cc)
 {
     if(isValidDmxLogicalChannel(cc))
     {
-        midiRawValid[cc] = false;
-        midiRawDmxValue[cc] = 0;
+        raw.valid[cc] = false;
+        raw.dmxValue[cc] = 0;
     }
 }
 
