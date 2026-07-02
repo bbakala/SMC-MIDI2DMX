@@ -104,3 +104,12 @@ První oficiální společná verze projektu pod názvem **SMC-MIDI2DMX**.
 - MAP modul stabilizován.
 
 v04_02 Released
+
+### v04_03-rc1
+
+- Core refactoring completed
+- MAP metadata unified
+- DMX Engine moved to Core
+- Scene Manager moved to Core
+- MIDI RAW processing unified
+- Both platforms compile successfully
