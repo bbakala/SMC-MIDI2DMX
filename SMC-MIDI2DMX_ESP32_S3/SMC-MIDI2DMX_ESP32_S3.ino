@@ -1007,16 +1007,12 @@ void clearMidiRawForCC(uint8_t cc)
 void clearMidiRawForFixtureValue(uint8_t fixtureIdx, uint8_t valueIndex)
 {
 #if USB_MIDI_RAW_TO_DMX
-    if(fixtureIdx >= NUM_FIXTURES || valueIndex >= NUM_VALUES)
-        return;
-
-    for(uint8_t i = 0; i < activeDmxMapCount(global.mapDMX); i++)
-    {
-        const DmxMapItem& item = activeDmxMap(global.mapDMX)[i];
-
-        if(item.fixture == fixtureIdx && item.valueIndex == valueIndex)
-            clearMidiRawForCC(item.cc);
-    }
+    clearMidiRawForFixtureValueCommon(
+        fixtureIdx,
+        valueIndex,
+        global.mapDMX,
+        clearMidiRawForCC
+    );
 #endif
 }
 
