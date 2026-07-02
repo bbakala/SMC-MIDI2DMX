@@ -24,6 +24,7 @@
 #include "../Core/DmxConfig.h"
 #include "../Core/DmxEngine.h"
 #include "../Core/SceneManager.h"
+#include "../Core/MidiRaw.h"
 
 // Stavová LED HW varianty. GPIO4: svítí = BLE připojeno, nesvítí = BLE odpojeno.
 #define BLE_STATUS_LED_PIN 4
@@ -766,23 +767,22 @@ void copyOldFixtureToNew(uint8_t idx, const void* oldFxPtr)
 void clearMidiRawAll()
 {
 #if MIDI_DIN_RAW_TO_DMX
-    // Ruší celou MIDI RAW vrstvu. V Core_03 se nevolá při běžném CLEAR/LOAD,
-    // ale zůstává k dispozici pro budoucí funkci CLEAR_RAW / panic.
-    memset(midiRawValid, 0, sizeof(midiRawValid));
-    memset(midiRawDmxValue, 0, sizeof(midiRawDmxValue));
+    clearMidiRawAllCommon(
+        midiRawValid,
+        midiRawDmxValue,
+        DMX_LOGICAL_COUNT
+    );
 #endif
 }
 
 void clearMidiRawForCC(uint8_t cc)
 {
 #if MIDI_DIN_RAW_TO_DMX
-    if(cc < DMX_LOGICAL_COUNT)
-    {
-        midiRawValid[cc] = false;
-        midiRawDmxValue[cc] = 0;
-    }
-#else
-    (void)cc;
+    clearMidiRawForCCCommon(
+        midiRawValid,
+        midiRawDmxValue,
+        cc
+    );
 #endif
 }
 

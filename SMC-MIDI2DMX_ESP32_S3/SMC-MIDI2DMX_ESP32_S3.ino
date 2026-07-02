@@ -28,6 +28,7 @@
 #include "../Core/DmxConfig.h"
 #include "../Core/DmxEngine.h"
 #include "../Core/SceneManager.h"
+#include "../Core/MidiRaw.h"
 
 #define RGB_PIN 48
 
@@ -984,19 +985,22 @@ uint8_t getMapValue(uint8_t fixtureIdx, uint8_t valueIndex)
 void clearMidiRawAll()
 {
 #if USB_MIDI_RAW_TO_DMX
-    memset(midiRawValid, 0, sizeof(midiRawValid));
-    memset(midiRawDmxValue, 0, sizeof(midiRawDmxValue));
+    clearMidiRawAllCommon(
+        midiRawValid,
+        midiRawDmxValue,
+        DMX_LOGICAL_COUNT
+    );
 #endif
 }
 
 void clearMidiRawForCC(uint8_t cc)
 {
 #if USB_MIDI_RAW_TO_DMX
-    if(cc < DMX_LOGICAL_COUNT)
-    {
-        midiRawValid[cc] = false;
-        midiRawDmxValue[cc] = 0;
-    }
+    clearMidiRawForCCCommon(
+        midiRawValid,
+        midiRawDmxValue,
+        cc
+    );
 #endif
 }
 
