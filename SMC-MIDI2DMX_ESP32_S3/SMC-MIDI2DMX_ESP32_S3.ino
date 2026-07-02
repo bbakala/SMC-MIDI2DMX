@@ -745,11 +745,16 @@ void loadScene(uint8_t scene)
         clearSelected
     );
 }
+
 void clearCurrent()
 {
-    memset(fixture, 0, sizeof(fixture));
-    memset(fixtureBankHigh, 0, sizeof(fixtureBankHigh));
-    clearSelected();
+    clearCurrentCommon(
+        fixture,
+        sizeof(fixture),
+        fixtureBankHigh,
+        sizeof(fixtureBankHigh),
+        clearSelected
+    );
 }
 
 void printFixture(uint8_t ch)

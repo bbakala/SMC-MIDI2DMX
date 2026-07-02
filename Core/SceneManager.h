@@ -125,3 +125,22 @@ inline void loadSceneCommon(
     if(afterLoad != nullptr)
         afterLoad();
 }
+
+inline void clearCurrentCommon(
+    Fixture* fixture,
+    size_t fixtureSize,
+    bool* fixtureBankHigh,
+    size_t fixtureBankCount,
+    SceneAfterLoad afterClear
+)
+{
+    // CLEAR nuluje pouze fixture[] vrstvu.
+    // MIDI RAW vrstva zůstává zachovaná, aby běžící sequencer
+    // nemusel znovu posílat neměnné CC.
+
+    memset(fixture, 0, fixtureSize);
+    memset(fixtureBankHigh, 0, fixtureBankCount);
+
+    if(afterClear)
+        afterClear();
+}

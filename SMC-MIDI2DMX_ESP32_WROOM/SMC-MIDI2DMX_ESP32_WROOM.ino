@@ -825,12 +825,13 @@ void loadScene(uint8_t scene)
 
 void clearCurrent()
 {
-    // CLEAR nuluje pouze fixture[] vrstvu.
-    // MIDI RAW vrstva zůstává zachovaná, aby běžící sequencer nemusel znovu posílat neměnné CC.
-
-    memset(fixture, 0, sizeof(fixture));
-    memset(fixtureBankHigh, 0, sizeof(fixtureBankHigh));
-    clearSelected();
+    clearCurrentCommon(
+        fixture,
+        sizeof(fixture),
+        fixtureBankHigh,
+        sizeof(fixtureBankHigh),
+        clearSelected
+    );
 }
 
 void printFixture(uint8_t ch)
